@@ -11,9 +11,6 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		
 		int lastArticleId = 0;
-		int id;
-		String title;
-		String body;
 		
 		List<Article> articles = new ArrayList<>();
 		
@@ -30,13 +27,13 @@ public class Main {
 				break;
 
 			} else if (command.equals("article write")) {
-				id = lastArticleId + 1;
+				int id = lastArticleId + 1;
 				lastArticleId = id;
 				System.out.print("제목 : ");
-				title = sc.nextLine();
+				String title = sc.nextLine();
 				
 				System.out.print("내용 : ");
-				body = sc.nextLine();
+				String body = sc.nextLine();
 				
 				Article article = new Article(id, title, body);
 				articles.add(article);
@@ -58,8 +55,33 @@ public class Main {
 				
 				
 
-			} else if (command.equals("article detail")) {
-				System.out.println("article detail");
+			} else if (command.startsWith("article detail ")) {
+				String[] commandBits = command.split(" ");
+				
+				int id = Integer.parseInt(commandBits[2]);
+				
+				Article foundArticle = null;
+				
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+					
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+					
+				}
+				if (foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+				else {
+					System.out.printf("번호 : %d\n", foundArticle.id);
+					System.out.printf("날짜 : 2021-12-12 12:12:12\n");
+					System.out.printf("제목 : %s\n", foundArticle.title);
+					System.out.printf("내용 : %s\n", foundArticle.body);
+					continue;
+				}
 
 			} else if (command.equals("article modify")) {
 				System.out.println("article modify");
