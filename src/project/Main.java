@@ -7,10 +7,8 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		
-		
-		Scanner sc = new Scanner(System.in);
 		System.out.println("=== 프로그램 시작 ===");
+		Scanner sc = new Scanner(System.in);
 		
 		int lastArticleId = 0;
 		int id;
@@ -19,23 +17,21 @@ public class Main {
 		
 		List<Article> articles = new ArrayList<>();
 		
-		
 
 		while (true) {
 			System.out.print("입력하실 명령어 )) ");
 			String command = sc.nextLine().trim();
 
-			System.out.printf("입력된 명령어 )) %s\n", command);
-
 			if (command.length() == 0) {
 				System.out.println("명령어를 입력해주세요.");
 				continue;
 
-			} else if (command.equals("program exit")) {
+			} else if (command.equals("system exit")) {
 				break;
 
 			} else if (command.equals("article write")) {
 				id = lastArticleId + 1;
+				lastArticleId = id;
 				System.out.print("제목 : ");
 				title = sc.nextLine();
 				
@@ -44,12 +40,23 @@ public class Main {
 				
 				Article article = new Article(id, title, body);
 				articles.add(article);
-				lastArticleId++;
 				
 				System.out.printf("%d번 글이 생성되었습니다.\n", id);
 				
 			} else if (command.equals("article list")) {
-				System.out.println("article list");
+				
+				if (articles.size() == 0) {
+					System.out.println("게시글이 없습니다.");
+				}
+				System.out.println("번호 | 제목");
+				
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					
+					System.out.printf(" %d  |  %s\n", article.id, article.title);
+				}
+				
+				
 
 			} else if (command.equals("article detail")) {
 				System.out.println("article detail");
