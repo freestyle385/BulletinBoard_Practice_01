@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("=== ÇÁ·Î±×·¥ ½ÃÀÛ ===");
+		System.out.println("=== í”„ë¡œê·¸ë¨ ì‹œì‘ ===");
 		Scanner sc = new Scanner(System.in);
 
 		int lastArticleId = 0;
@@ -15,12 +15,12 @@ public class Main {
 		List<Article> articles = new ArrayList<>();
 
 		while (true) {
-			System.out.printf("ÀÔ·ÂÇÏ½Ç ¸í·É¾î )) ");
+			System.out.printf("ì…ë ¥í•˜ì‹¤ ëª…ë ¹ì–´ )) ");
 			String command = sc.nextLine();
 			command = command.trim();
 
 			if (command.length() == 0) {
-				System.out.println("¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("ëª…ë ¹ì–´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				continue;
 
 			} else if (command.equals("system exit")) {
@@ -30,24 +30,24 @@ public class Main {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
 				String regDate = Util.getNowDateStr();
-				System.out.printf("Á¦¸ñ : ");
+				System.out.printf("ì œëª© : ");
 				String title = sc.nextLine();
 
-				System.out.printf("³»¿ë : ");
+				System.out.printf("ë‚´ìš© : ");
 				String body = sc.nextLine();
 
 				Article article = new Article(id, regDate, title, body);
 				articles.add(article);
 
-				System.out.printf("%d¹ø ±ÛÀÌ »ı¼ºµÇ¾ú½À´Ï´Ù.\n", id);
+				System.out.printf("%dë²ˆ ê¸€ì´ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.\n", id);
 
 			} else if (command.equals("article list")) {
 
 				if (articles.size() == 0) {
-					System.out.println("°Ô½Ã±ÛÀÌ ¾ø½À´Ï´Ù.");
+					System.out.println("ê²Œì‹œê¸€ì´ ì—†ìŠµë‹ˆë‹¤.");
 					continue;
 				}
-				System.out.println("¹øÈ£ | Á¦¸ñ");
+				System.out.println("ë²ˆí˜¸ | ì œëª©");
 
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
@@ -72,17 +72,46 @@ public class Main {
 
 				}
 				if (foundArticle == null) {
-					System.out.printf("%d¹ø °Ô½Ã¹°Àº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n", id);
+					System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", id);
 					continue;
 				} else {
-					System.out.printf("¹øÈ£ : %d\n", foundArticle.id);
-					System.out.printf("³¯Â¥ : %s\n", foundArticle.regDate);
-					System.out.printf("Á¦¸ñ : %s\n", foundArticle.title);
-					System.out.printf("³»¿ë : %s\n", foundArticle.body);
+					System.out.printf("ë²ˆí˜¸ : %d\n", foundArticle.id);
+					System.out.printf("ë‚ ì§œ : %s\n", foundArticle.regDate);
+					System.out.printf("ì œëª© : %s\n", foundArticle.title);
+					System.out.printf("ë‚´ìš© : %s\n", foundArticle.body);
 					continue;
 				}
 
-			} else if (command.equals("article modify ")) {
+			} else if (command.startsWith("article modify ")) {
+				String[] commandBits = command.split(" ");
+
+				int id = Integer.parseInt(commandBits[2]);
+				
+				Article foundArticle = null;
+				
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+
+				}
+				if (foundArticle == null) {
+					System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", id);
+					continue;
+				}
+				System.out.printf("ì œëª© : ");
+				String title = sc.nextLine();
+				System.out.printf("ë‚´ìš© : ");
+				String body = sc.nextLine();
+				
+				foundArticle.title = title;
+				foundArticle.body = body;
+				
+				System.out.printf("%dë²ˆ ê¸€ì´ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.\n", id);
+				
 				
 
 			} else if (command.startsWith("article delete ")) {
@@ -103,20 +132,20 @@ public class Main {
 				}
 
 				if (foundIndex == -1) {
-					System.out.printf("%d¹ø °Ô½Ã¹°Àº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n", id);
+					System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", id);
 					continue;
 
 				}
 				articles.remove(foundIndex);
-				System.out.printf("%d¹ø °Ô½Ã¹°ÀÌ »èÁ¦µÇ¾ú½À´Ï´Ù.\n", id);
+				System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì´ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.\n", id);
 
 			} else {
-				System.out.printf("%s(Àº)´Â Á¸ÀçÇÏÁö ¾Ê´Â ¸í·É¾î ÀÔ´Ï´Ù.\n", command);
+				System.out.printf("%s(ì€)ëŠ” ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ëª…ë ¹ì–´ ì…ë‹ˆë‹¤.\n", command);
 				continue;
 			}
 		}
 		sc.close();
-		System.out.println("=== ÇÁ·Î±×·¥ Á¾·á ===");
+		System.out.println("=== í”„ë¡œê·¸ë¨ ì¢…ë£Œ ===");
 
 	}
 }
