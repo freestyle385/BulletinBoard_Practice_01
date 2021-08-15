@@ -48,7 +48,27 @@ public class App {
 
 				System.out.printf("%d번 글이 생성되었습니다.\n", id);
 
-			} else if (command.equals("article list")) {
+			} else if (command.startsWith("article list ")) {
+				// 게시물 리스팅 시 필터링할 키워드를 searchKeyword로 추출
+				// 필터링된 게시물만 forListArticles 배열에 추가
+				String searchKeyword = command.substring("article list".length()).trim();
+
+				List<Article> forListArticles = articles;
+
+				if (searchKeyword.length() > 0) {
+					// searchKeyword가 유효할 때, searchKeyword가 포함된 게시물을 forListArticles의 새로 생성된 배열에 추가
+					forListArticles = new ArrayList<>();
+
+					for (Article article : articles) {
+						if (article.title.contains(searchKeyword)) {
+							forListArticles.add(article);
+						}
+					}
+					if (forListArticles.size() == 0) {
+						System.out.println("검색결과가 존재하지 않습니다.");
+						continue;
+					}
+				}
 
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다.");
@@ -56,8 +76,8 @@ public class App {
 				}
 				System.out.println("번호 | 조회| 제목");
 
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+				for (int i = forListArticles.size() - 1; i >= 0; i--) {
+					Article article = forListArticles.get(i);
 
 					System.out.printf("%4d|%4d|%s\n", article.id, article.hit, article.title);
 				}
@@ -157,6 +177,6 @@ public class App {
 
 		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
 		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowDateStr(), "제목2", "내용2", 33));
+		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
 	}
 }
