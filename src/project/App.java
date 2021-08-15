@@ -67,17 +67,8 @@ public class App {
 
 				int id = Integer.parseInt(commandBits[2]);
 
-				Article foundArticle = null;
+				Article foundArticle = getArticleById(id);
 
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-
-				}
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
@@ -96,17 +87,8 @@ public class App {
 
 				int id = Integer.parseInt(commandBits[2]);
 
-				Article foundArticle = null;
+				Article foundArticle = getArticleById(id);
 
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-
-				}
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
@@ -126,16 +108,7 @@ public class App {
 
 				int id = Integer.parseInt(commandBits[2]);
 
-				int foundIndex = -1;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundIndex = i;
-						break;
-					}
-				}
+				int foundIndex = getArticleIndexById(id);
 
 				if (foundIndex == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -153,6 +126,30 @@ public class App {
 		sc.close();
 		System.out.println("=== 프로그램 종료 ===");
 
+	}
+
+	private int getArticleIndexById(int id) {
+		// id를 통해 게시물의 배열 인덱스를 알아냄(0 ~ )
+		// 찾는 게시물이 없을 경우 인덱스 범위 외의 -1를 반환
+		int i = 0;
+
+		for (Article article : articles) {
+			if (article.id == id) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
+	private Article getArticleById(int id) {
+		// getArticleIndexById의 리턴값(배열 인덱스)에 해당하는 데이터 찾기
+		int index = getArticleIndexById(id);
+
+		if (index != -1) {
+			return articles.get(index);
+		}
+		return null;
 	}
 
 	private static void makeTestData() {
