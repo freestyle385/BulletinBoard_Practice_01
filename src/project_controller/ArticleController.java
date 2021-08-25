@@ -7,9 +7,34 @@ import java.util.Scanner;
 import project_dto.Article;
 import project_util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	private Scanner sc;
 	private List<Article> articles;
+	private String command;
+	private String actionMethodName;
+
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+
+		switch (actionMethodName) {
+		case "list":
+			showList();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "write":
+			doWrite();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		}
+	}
 
 	public ArticleController(Scanner sc, List<Article> articles) {
 		this.sc = sc;
@@ -31,7 +56,7 @@ public class ArticleController {
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}
 
-	public void showList(String command) {
+	public void showList() {
 		// 게시물 리스팅 시 필터링할 키워드를 searchKeyword로 추출
 		// 필터링된 게시물만 forListArticles 배열에 추가
 		String searchKeyword = command.substring("article list".length()).trim();
@@ -66,7 +91,7 @@ public class ArticleController {
 		}
 	}
 
-	public void showDetail(String command) {
+	public void showDetail() {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -87,7 +112,7 @@ public class ArticleController {
 		System.out.printf("조회수 : %d\n", foundArticle.hit);
 	}
 
-	public void doModify(String command) {
+	public void doModify() {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -109,7 +134,7 @@ public class ArticleController {
 		System.out.printf("%d번 글이 수정되었습니다.\n", id);
 	}
 
-	public void doDelete(String command) {
+	public void doDelete() {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -149,5 +174,4 @@ public class ArticleController {
 		return null;
 	}
 
-	
 }
