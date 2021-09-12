@@ -39,24 +39,42 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
-		System.out.print("아이디 : ");
-		String loginId = sc.nextLine().trim();
-		System.out.print("비밀번호 : ");
-		String loginPw = sc.nextLine().trim();
+		String loginId;
+		String loginPw;
+		Member member;
+		
+		int loginCount = 0;
+		int loginMaxCount = 3; // 로그인 시도가 3번 실패하면(3번 초과하면) 처음으로 돌아가기
 
-		Member member = getMemberByLoginId(loginId);
+		while (true) {
+			loginCount++;
+			
+			if (loginCount > loginMaxCount) {
+				System.out.println("로그인을 3회 실패하셨습니다. 처음부터 다시 실행해주세요.");
+				return;
+			}
+			
+			System.out.print("아이디 : ");
+			loginId = sc.nextLine().trim();
+			System.out.print("비밀번호 : ");
+			loginPw = sc.nextLine().trim();
 
-		if (member == null) {
-			System.out.printf("%s 계정은 존재하지 않습니다.\n", loginId);
-			return;
+			member = getMemberByLoginId(loginId);
+
+			if (member == null) {
+				System.out.printf("%s 계정은 존재하지 않습니다.\n", loginId);
+				continue;
+			}
+			
+			if (member.loginPw.equals(loginPw) == false) {
+				System.out.println("비밀번호가 일치하지 않습니다");
+				continue;
+			}
+
+			loginedMember = member;
+			break;
 		}
 
-		if (member.loginPw.equals(loginPw) == false) {
-			System.out.println("비밀번호가 일치하지 않습니다");
-			return;
-		}
-
-		loginedMember = member;
 		System.out.printf("%s님 환영합니다.\n", loginedMember.name);
 
 	}
@@ -134,5 +152,13 @@ public class MemberController extends Controller {
 
 		return members.get(index);
 
+	}
+
+	public void makeTestData() {
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
+
+		members.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
+		members.add(new Member(2, Util.getNowDateStr(), "test1", "test1", "홍길동"));
+		members.add(new Member(3, Util.getNowDateStr(), "test2", "test2", "임꺽정"));
 	}
 }
