@@ -48,11 +48,6 @@ public class MemberController extends Controller {
 		int loginCount = 0;
 		int loginMaxCount = 3; // 로그인 시도가 3번 실패하면(3번 초과하면) 처음으로 돌아가기
 
-		if (loginedMember != null) {
-			System.out.printf("현재 %s님이 로그인 중입니다.\n", loginedMember.name);
-			return;
-		}
-
 		while (true) {
 			loginCount++;
 
@@ -87,11 +82,6 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogout() {
-
-		if (loginedMember == null) {
-			System.out.println("현재 로그인 상태가 아닙니다.");
-			return;
-		}
 
 		System.out.printf("%s님이 로그아웃되었습니다.\n", loginedMember.name);
 		loginedMember = null;

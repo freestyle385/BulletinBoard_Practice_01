@@ -31,24 +31,12 @@ public class ArticleController extends Controller {
 			showDetail();
 			break;
 		case "write":
-			if (loginedMember == null) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doWrite();
 			break;
 		case "modify":
-			if (loginedMember == null) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doModify();
 			break;
 		case "delete":
-			if (loginedMember == null) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doDelete();
 			break;
 		default:
@@ -159,7 +147,7 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시물을 수정할 권한이 없습니다.\n", foundArticle.id);
 			return;
 		}
-		
+
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -182,12 +170,12 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
-		
+
 		if (loginedMember.id != foundArticle.memberId) {
 			System.out.printf("%d번 게시물을 삭제할 권한이 없습니다.\n", foundArticle.id);
 			return;
 		}
-		
+
 		articles.remove(foundArticle);
 		System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
 	}
