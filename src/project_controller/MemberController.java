@@ -32,6 +32,9 @@ public class MemberController extends Controller {
 		case "login":
 			doLogin();
 			break;
+		case "logout":
+			doLogout();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
@@ -42,18 +45,23 @@ public class MemberController extends Controller {
 		String loginId;
 		String loginPw;
 		Member member;
-		
+
 		int loginCount = 0;
 		int loginMaxCount = 3; // 로그인 시도가 3번 실패하면(3번 초과하면) 처음으로 돌아가기
-
+		
+		if (loginedMember != null) {
+			System.out.printf("현재 %s님이 로그인 중입니다.\n", loginedMember.name);
+			return;
+		}
+		
 		while (true) {
 			loginCount++;
-			
+
 			if (loginCount > loginMaxCount) {
 				System.out.println("로그인을 3회 실패하셨습니다. 처음부터 다시 실행해주세요.");
 				return;
 			}
-			
+
 			System.out.print("아이디 : ");
 			loginId = sc.nextLine().trim();
 			System.out.print("비밀번호 : ");
@@ -65,7 +73,7 @@ public class MemberController extends Controller {
 				System.out.printf("%s 계정은 존재하지 않습니다.\n", loginId);
 				continue;
 			}
-			
+
 			if (member.loginPw.equals(loginPw) == false) {
 				System.out.println("비밀번호가 일치하지 않습니다");
 				continue;
@@ -77,6 +85,18 @@ public class MemberController extends Controller {
 
 		System.out.printf("%s님 환영합니다.\n", loginedMember.name);
 
+	}
+
+	private void doLogout() {
+		
+		if (loginedMember == null) {
+			System.out.println("현재 로그인 상태가 아닙니다.");
+			return;
+		}
+		
+		System.out.printf("%s님이 로그아웃되었습니다.\n", loginedMember.name);
+		loginedMember = null;
+		
 	}
 
 	private void doJoin() {
