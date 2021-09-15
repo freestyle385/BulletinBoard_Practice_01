@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import project.Container;
 import project_dto.Article;
+import project_dto.Member;
 import project_util.Util;
 
 public class ArticleController extends Controller {
@@ -105,8 +106,18 @@ public class ArticleController extends Controller {
 
 		for (int i = forListArticles.size() - 1; i >= 0; i--) {
 			Article article = forListArticles.get(i);
+			
+			String writerName = null;
+			List<Member> members = Container.memberDao.members;
+			
+			for (Member member : members) {
+				if (article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
 
-			System.out.printf("%4d|%5d|%7s|%5d\n", article.id, article.hit, article.title, article.memberId);
+			System.out.printf("%4d|%5d|%7s|%5s\n", article.id, article.hit, article.title, writerName);
 		}
 	}
 
