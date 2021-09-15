@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import project.Container;
 import project_dto.Article;
 import project_util.Util;
 
@@ -16,7 +17,7 @@ public class ArticleController extends Controller {
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
 
-		articles = new ArrayList<>();
+		articles = Container.articleDao.articles;
 	}
 
 	public void doAction(String command, String actionMethodName) {
