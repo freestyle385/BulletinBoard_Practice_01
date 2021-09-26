@@ -136,43 +136,30 @@ public class MemberController extends Controller {
 	}
 
 	private void doModify() {
-		String loginPw;
+		String loginPw = null;
 
-		int loginCount = 0;
-		int loginMaxCount = 3; // 로그인 시도가 3번 실패하면(3번 초과하면) 처음으로 돌아가기
+		authByPw(loginPw);
 
-		System.out.println("본인확인을 위해 비밀번호를 입력해주세요.");
-
-		while (true) {
-			loginCount++;
-
-			if (loginCount > loginMaxCount) {
-				System.out.println("본인확인을 3회 실패하셨습니다. 처음부터 다시 실행해주세요.");
-				return;
-			}
-
-			System.out.print("비밀번호 : ");
-			loginPw = sc.nextLine().trim();
-
-			if (loginedMember.loginPw.equals(loginPw) == false) {
-				System.out.println("비밀번호가 일치하지 않습니다");
-				continue;
-			}
-
-			System.out.println("본인확인이 완료되었습니다.");
-			break;
-		}
-		
 		System.out.print("새 이름 : ");
 		String name = sc.nextLine();
-		
+
 		loginedMember.name = name;
 		System.out.printf("%s님의 정보가 수정되었습니다.\n", loginedMember.name);
 	}
 
 	private void doWithdraw() {
-		String loginPw;
+		String loginPw = null;
 
+		authByPw(loginPw);
+
+		Member member = loginedMember;
+		memberService.withdraw(member);
+
+		System.out.printf("%s님의 계정 탈퇴가 완료되었습니다.\n", loginedMember.name);
+		loginedMember = null;
+	}
+
+	private void authByPw(String loginPw) {
 		int loginCount = 0;
 		int loginMaxCount = 3; // 로그인 시도가 3번 실패하면(3번 초과하면) 처음으로 돌아가기
 
@@ -197,11 +184,6 @@ public class MemberController extends Controller {
 			System.out.println("본인확인이 완료되었습니다.");
 			break;
 		}
-		Member member = loginedMember;
-		memberService.withdraw(member);
-
-		System.out.printf("%s님의 계정 탈퇴가 완료되었습니다.\n", loginedMember.name);
-		loginedMember = null;
 	}
 
 	public void makeTestData() {
