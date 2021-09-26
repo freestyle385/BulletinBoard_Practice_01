@@ -27,4 +27,8 @@ public class MemberService {
 		memberDao.add(member);
 	}
 
+	public void withdraw(Member member) {
+		memberDao.remove(member);
+	}
+
 }

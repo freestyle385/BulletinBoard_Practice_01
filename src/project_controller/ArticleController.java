@@ -11,7 +11,6 @@ import project_util.Util;
 
 public class ArticleController extends Controller {
 	private Scanner sc;
-	private List<Article> articles;
 	private String command;
 	private String actionMethodName;
 	private ArticleService articleService;
@@ -61,7 +60,6 @@ public class ArticleController extends Controller {
 
 	public ArticleController(Scanner sc, List<Article> articles) {
 		this.sc = sc;
-		this.articles = articles;
 	}
 
 	private void doWrite() {

@@ -63,6 +63,8 @@ public class App {
 			case "article/delete":
 			case "article/modify":
 			case "member/logout":
+			case "member/withdraw":
+			case "member/modify":
 				if (Controller.loginedMember == null) {
 					System.out.println("로그인 후 이용해주세요.");
 					continue;
