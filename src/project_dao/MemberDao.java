@@ -3,6 +3,7 @@ package project_dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import project.Container;
 import project_dto.Member;
 
 public class MemberDao extends Dao {
@@ -54,6 +55,16 @@ public class MemberDao extends Dao {
 
 	public void remove(Member member) {
 		members.remove(member);
+	}
+
+	public String getMemberNameById(int memberId) {
+		for (Member member : members) {
+			if (member.id == memberId) {
+				return member.name;
+			}
+		}
+
+		return "";
 	}
 
 }

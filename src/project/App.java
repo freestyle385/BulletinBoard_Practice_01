@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import project_controller.ArticleController;
 import project_controller.Controller;
+import project_controller.ExportController;
 import project_controller.MemberController;
 
 public class App {
@@ -17,9 +18,11 @@ public class App {
 		
 		MemberController memberController = new MemberController(sc);
 		ArticleController articleController = new ArticleController(sc);
+		ExportController exportController = new ExportController(sc);
 		
 		articleController.makeTestData();
 		memberController.makeTestData();
+		exportController.makeTestData();
 		
 		while (true) {
 			System.out.printf("입력하실 명령어 )) ");
@@ -51,6 +54,8 @@ public class App {
 				controller = articleController;
 			} else if (controllerName.equals("member")) {
 				controller = memberController;
+			} else if (controllerName.equals("export")) {
+				controller = exportController;
 			} else {
 				System.out.println("존재하지 않는 명령어입니다.");
 				continue;

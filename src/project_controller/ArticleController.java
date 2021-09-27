@@ -7,6 +7,7 @@ import project.Container;
 import project_dto.Article;
 import project_dto.Member;
 import project_service.ArticleService;
+import project_service.MemberService;
 import project_util.Util;
 
 public class ArticleController extends Controller {
@@ -14,11 +15,13 @@ public class ArticleController extends Controller {
 	private String command;
 	private String actionMethodName;
 	private ArticleService articleService;
+	private MemberService memberService;
 
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
 
 		articleService = Container.articleService;
+		memberService = Container.memberService;
 	}
 
 	public void doAction(String command, String actionMethodName) {
@@ -95,22 +98,19 @@ public class ArticleController extends Controller {
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
 
-			String writerName = null;
-			List<Member> members = Container.memberDao.members;
+			String writerName = memberService.getMemberNameById(article.memberId);
 
-			for (Member member : members) {
-				if (article.memberId == member.id) {
-					writerName = member.name;
-					break;
-				}
-			}
-
-			System.out.printf("%4d|%5d|%7s|%5s\n", article.id, article.hit, article.title, writerName);
+			System.out.printf("%4d|%4s|%5d|%10s\n", article.id, writerName, article.hit, article.title);
 		}
 	}
 
 	private void showDetail() {
 		String[] commandBits = command.split(" ");
+
+		if (commandBits.length == 2) {
+			System.out.println("조회할 게시물 번호를 입력해주세요.");
+			return;
+		}
 
 		int id = Integer.parseInt(commandBits[2]);
 
@@ -129,10 +129,16 @@ public class ArticleController extends Controller {
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);
 		System.out.printf("조회수 : %d\n", foundArticle.hit);
+
 	}
 
 	private void doModify() {
 		String[] commandBits = command.split(" ");
+
+		if (commandBits.length == 2) {
+			System.out.println("수정할 게시물 번호를 입력해주세요.");
+			return;
+		}
 
 		int id = Integer.parseInt(commandBits[2]);
 
@@ -161,6 +167,11 @@ public class ArticleController extends Controller {
 
 	private void doDelete() {
 		String[] commandBits = command.split(" ");
+
+		if (commandBits.length == 2) {
+			System.out.println("삭제할 게시물 번호를 입력해주세요.");
+			return;
+		}
 
 		int id = Integer.parseInt(commandBits[2]);
 

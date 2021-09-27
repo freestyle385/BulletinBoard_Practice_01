@@ -18,6 +18,10 @@ public class ArticleService {
 
 		return articleDao.getArticles(searchKeyword);
 	}
+	
+	public List<Article> getForPrintArticles() {
+		return articleDao.getArticles(null);
+	}
 
 	public int getArticleIndexById(int id) {
 		return articleDao.getArticleIndexById(id);
